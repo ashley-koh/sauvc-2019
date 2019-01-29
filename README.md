@@ -1,10 +1,6 @@
-# sauvc-2019
+# NPES SAUVC 2019
 Git repo for SAUVC-2019
 
-Hello there.
-
-This repository is made and maintained by NPES students
-
-dont fuck this up
-
-ty
+## Requirements
+1. [ROS Kinetic](http://wiki.ros.org/kinetic/Installation)
+    * [bluerov_ros_playground](https://github.com/patrickelectric/bluerov_ros_playground)

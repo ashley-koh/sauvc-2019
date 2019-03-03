@@ -8,6 +8,7 @@ import os
 import cv2
 import argparse
 from multiprocessing import Pool, cpu_count
+from glob import glob
 
 # Extract the frames of the video specified by the given video_filename into 
 # the given directory out_dir.
@@ -46,4 +47,14 @@ if __name__ == "__main__":
     ## Perform extraction 
     #extract_frames(options.video, options.out_dir)
 
-    # get classes from directories
+    # Create pictures directory
+    pics_dir = "data/images"
+    if not os.path.exists(pics_dir): os.mkdir(pics_dir)
+    
+    # perform extraction on multiple processes
+    def extractor(vid_path):
+        data_dir, video_dir, class_name, video_filename = vid_path.split("/")
+        extract_frames(vid_path, out_dir="{}/{}".format(pics_dir, class_name))
+        
+    pool = Pool(processes=cpu_count())
+    pool.map(extractor, glob("data/video/*/*"))

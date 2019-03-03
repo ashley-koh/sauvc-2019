@@ -76,9 +76,9 @@ if __name__ == "__main__":
         print("extractor: prcoessing video: ", i_vid)
         data_dir, video_dir, class_name, video_filename = vid_path.split("/")
         extract_frames(vid_path, out_dir="{}/{}".format(pics_dir, class_name),
-                       sampling_rate=0.01)
+                       sampling_rate=0.15)
 
-    vid_infos = list(enumerate(glob("data/video/*/*")))[:1]
+    vid_infos = list(enumerate(glob("data/video/*/*")))
     print("to extract {} videos".format(len(vid_infos)))
     
     pool = Pool(processes=cpu_count())

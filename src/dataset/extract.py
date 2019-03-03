@@ -21,7 +21,8 @@ from shutil import rmtree
 def extract_frames(video_filename, out_dir, sampling_rate, verbose=True):
     # Extract video name frm full filename
     video_basename = os.path.basename(video_filename)
-    video_name = video_basename[:video_filename.index(".")]
+    video_name = video_basename[:video_basename.index(".")]
+    print("bname: ", video_basename, " video_name: ", video_name)
 
     # Extract frames using opencv2 video capture
     video_capture = cv2.VideoCapture(video_filename)
@@ -75,9 +76,9 @@ if __name__ == "__main__":
         print("extractor: prcoessing video: ", i_vid)
         data_dir, video_dir, class_name, video_filename = vid_path.split("/")
         extract_frames(vid_path, out_dir="{}/{}".format(pics_dir, class_name),
-                       sampling_rate=0.15)
+                       sampling_rate=0.01)
 
-    vid_infos = list(enumerate(glob("data/video/*/*")))
+    vid_infos = list(enumerate(glob("data/video/*/*")))[:1]
     print("to extract {} videos".format(len(vid_infos)))
     
     pool = Pool(processes=cpu_count())

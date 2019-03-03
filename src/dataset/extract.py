@@ -7,6 +7,7 @@
 import os
 import cv2
 import argparse
+from multiprocessing import Pool, cpu_count
 
 # Extract the frames of the video specified by the given video_filename into 
 # the given directory out_dir.
@@ -44,3 +45,5 @@ if __name__ == "__main__":
 
     ## Perform extraction 
     #extract_frames(options.video, options.out_dir)
+
+    # get classes from directories

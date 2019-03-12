@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="log_output" default="screen">
+    <arg name="_device_id" default="0">
+
+    <node pkg="cv_camera" type="cv_camera_node" name="cv_camera_node" respawn="true" output="$(arg log_output)">
+        <param name="_device_id" value="$(arg _device_id)"/>
+    </node>
+
+    <node pkg="opencv_converter" type="Centroid.py" name="opencv" respawn="true" output="$(arg log_output)">
+</launch>

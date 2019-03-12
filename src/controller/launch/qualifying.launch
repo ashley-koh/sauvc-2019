@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<launch>
+    <!-- Destination of output log -->
+    <arg name="log_output" default="screen">
+
+    <!-- BlueRov2 udp port -->
+    <arg name="bluerov_node_device" default="udp:192.168.2.1:14550">
+
+    <!-- Mavros Arguments -->
+    <arg name="fcu_url" default="udp://:14550@127.0.0.1:14549"/>
+    <arg name="gcs_url" default="udp://:14549@127.0.0.1:14548"/>
+    <arg name="video_udp_port" default="5600"/>
+    <arg name="system_id" default="255"/>
+    <arg name="component_id" default="240"/>
+    <arg name="tgt_system" default="1"/>
+    <arg name="tgt_component" default="1"/>
+    <arg name="pluginlists_yaml" value="$(find bluerov_ros_playground)/launch/mav_pluginlists.yaml"/>
+    <arg name="config_yaml" value="$(find mavros)/launch/apm_config.yaml"/>
+
+    <!-- Start Mavros Node -->
+    <node pkg="mavros" type="mavros_type" name="mavros" required="true" clear_params="true" output="$(arg log_output)">
+        <param name="fcu_url" value="$(arg fcu_url)"/>
+        <param name="gcs_url" value="$(arg gcs_url)"/>
+        <param name="system_id" value="$(arg system_id)"/>
+        <param name="component_id" value="$(arg component_id)"/>
+        <param name="target_system_id" value="$(arg tgt_system)"/>
+        <param name="target_component_id" value="$(arg tgt_component)"/>
+
+        <!-- load blacklist, config -->
+        <rosparam command="load" file="$(arg pluginlists_yaml)"/>
+        <rosparam command="load" file="$(arg config_yaml)"/>
+    </node>
+
+    <!-- Start BlueRov2 Node -->
+    <node respawn="true" pkg="bluerov_ros_package" type="node" name="bluerov2_node" output="$(arg log_output)">
+        <param name="device" value="$(arg bluerov_node_device)">
+    </node>
+
+    <!-- Start Controller Node -->
+    <node pkg="controller" type="controller.py" name="controller_node" output="$(arg log_output)"/>
+
+    <!-- Start cv_camera -->
+    <node pkg="cv_camera" type="cv_camera_node" name="cv_camera_node" respawn="true" output="$(arg log_output)">
+		<param name="_device_id" value="0"/>
+	</node>
+</launch>
